@@ -1,0 +1,46 @@
+import React from 'react'
+import dashboard from '../assets/dashboard.png'
+import TextType from '../components/TextType';
+const Hero = () => {
+  return (
+  <div className="h-screen w-full bg-[url('/squares.png')] bg-no-repeat bg-top bg-[length:1200px_1100px]">
+    <div className='flex flex-col items-center h-screen pt-30'>
+  <div className='font-instrument text-4xl  '>Snip-Shell</div>
+  <div className='font-inter text-sm md:text-4xl'>
+
+<TextType 
+text={[
+  "Save your tweets, videos & links",
+  "Your personal watch-later vault",
+  "Share your saved collection easily",
+  "Snip it. Store it. View it anytime."
+]}
+  typingSpeed={75}
+  pauseDuration={1500}
+  showCursor={true}
+  cursorCharacter="|"
+/></div>
+<div>
+  <img
+    src={dashboard}
+    alt="dashboard"
+    className="w-[900px] mt-20 rounded-lg"
+    style={{
+      boxShadow: '0 -10px 15px -3px rgba(0,0,0,0.3), -10px 0 15px -3px rgba(0,0,0,0.3), 10px 0 15px -3px rgba(0,0,0,0.3)'
+    }}
+  />
+</div >
+<div className='mt-20 font-instrument text-4xl'>
+    Expand Your Mind, Effortlessly.
+  </div>
+  <div className='font-inter mt-5'> get into the dashboard</div>
+  
+  </div>
+  
+
+</div>
+
+  )
+}
+
+export default Hero
