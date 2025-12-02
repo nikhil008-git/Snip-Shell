@@ -51,7 +51,7 @@ export const addContent = async (req: Request, res: Response) => {
         type,
         description,
         // @ts-ignore
-        userId: req.userId,//foriegn key sort of 
+        userId: req.userId,//for this user we create content
         tags: [],
       });
   
