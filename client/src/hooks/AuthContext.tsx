@@ -63,20 +63,21 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
 const Signup = async (data: AuthData) => {
   try {
-    await axios.post("http://localhost:3000/api/signup", {
+    const res = await axios.post("http://localhost:3000/api/signup", {
       username: data.username,
       email: data.email,
       password: data.password,
     });
 
-    return { ok: true };
+    return { ok: true, message: res.data.message };
   } catch (error: unknown) {
     if (axios.isAxiosError(error)) {
       return { ok: false, message: error.response?.data?.message };
     }
-    return { ok: false };
+    return { ok: false, message: "Unknown error" };
   }
 };
+
   const Logout = () => {
     localStorage.removeItem("token");
     setUser(null);

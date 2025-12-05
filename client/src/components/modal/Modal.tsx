@@ -1,5 +1,4 @@
 import React from 'react';
-// import { useState } from 'react';
 
 interface ModalProps {
     show: boolean;
@@ -11,13 +10,13 @@ interface ModalProps {
 function Modal({show, onClose, children}: ModalProps) {
     if (!show) return null; //same as conditional rendering! i.e like { show && <Modal /> /.... got it right}
 
-    return(
+    return( 
         <>
-        <div className="fixed inset-0 flex justify-center items-center h-screen w-screen">
-        <div className="flex bg-black p-20  bg-black/30 rounded-lg shadow-lg justify-center items-center flex-col">
+        <div className="fixed inset-0 backdrop-blur bg-black/50  flex justify-center items-center h-screen w-screen" onClick={onClose}>
+        <div className="flex bg-black p-10  bg-white rounded-xl shadow-sm shadow-white justify-center items-center flex-col" onClick={(e)=>e.stopPropagation()}>
         {children}
 
-        <button onClick={onClose} className="mt-4 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">
+        <button onClick={onClose} className=" bg-black text-white h-8 w-15 rounded-md font-instrument  hover:bg-gray-600">
             Close
         </button>
         </div>

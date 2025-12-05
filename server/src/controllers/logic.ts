@@ -87,7 +87,7 @@ export const deleteContent = async (req: Request, res: Response) => {
     }
 };
 // {
-//     "contentId":"69244fc3xxxxx"
+//     "contentId":"69244fc3xxxxx"   this will come from delete below the map which will fetch excat content id from the map and delete it
 // }
 
 export const shareBrain = async (req: Request, res: Response) => {
