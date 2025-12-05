@@ -12,7 +12,7 @@ function Modal({show, onClose, children}: ModalProps) {
 
     return( 
         <>
-        <div className="fixed inset-0 backdrop-blur bg-black/50  flex justify-center items-center h-screen w-screen" onClick={onClose}>
+        <div className="fixed inset-0 z-50 backdrop-blur bg-black/50  flex justify-center items-center h-screen w-screen" onClick={onClose}>
         <div className="flex bg-black p-10  bg-white rounded-xl shadow-sm shadow-white justify-center items-center flex-col" onClick={(e)=>e.stopPropagation()}>
         {children}
 

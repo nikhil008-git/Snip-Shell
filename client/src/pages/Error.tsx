@@ -1,8 +1,9 @@
-import React from 'react'
 
 export const Error = () => {
   return (
-    <div>Error this comes here </div>
+    <div>issue here
+      
+       </div>
   )
 }
 export default Error;

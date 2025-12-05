@@ -1,6 +1,8 @@
 import React, { useState, createContext, useContext } from "react";
 import axios from "axios";
 
+// const API_URL = import.meta.env.VITE_API_URL ;
+
 export interface UserData {
   _id: string;
   username: string;

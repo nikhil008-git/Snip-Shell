@@ -1,6 +1,9 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
+import Card from "../components/Card/Card"; // cards imported coollll
+
+const API_URL = import.meta.env.VITE_API_URL ;
 
 interface CardData {
   _id: string;
@@ -20,9 +23,8 @@ const SharedDashboard = () => {
     const fetchSharedContent = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:3000/api/brain/share/${hash}`
+          `${API_URL}/brain/share/${hash}`
         );
-
         setItems(response.data.content);
         setUsername(response.data.username || "User");
         setLoading(false);
@@ -41,22 +43,17 @@ const SharedDashboard = () => {
 
   return (
     <div className="p-4">
-      <h1 className="text-2xl font-bold mb-4">{username}&apos;s Shared Brain</h1>
-      <div className="space-y-4">
+      <h1 className="text-2xl font-bold mb-4 font-instrument">view {username}&apos;s Snip-shell</h1>
+      <div className="flex flex-wrap gap-4">
         {items.map((card) => (
-          <div key={card._id} className="border p-4 rounded shadow">
-            <h2 className="font-semibold text-lg">{card.title}</h2>
-            <p>{card.description}</p>
-            <a
-              href={card.link}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-blue-500 underline"
-            >
-              Visit Link
-            </a>
-            <p className="text-sm text-gray-500">Type: {card.type}</p>
-          </div>
+          <Card
+            key={card._id}
+            title={card.title}
+            link={card.link}
+            type={card.type}
+            description={card.description}
+            onDelete={() => {}} // dont want to delete by shared pppll
+          />
         ))}
       </div>
     </div>

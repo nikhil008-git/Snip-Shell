@@ -1,6 +1,8 @@
 import React, { useContext, createContext } from 'react';
 import axios from 'axios';
-
+import RedAlert from "../components/Alert/RedAlert";
+import BlueAlert from '../components/Alert/BlueAlert';
+const API_URL = import.meta.env.VITE_API_URL;
 interface ContentData {
   title: string;
   type: string;
@@ -19,13 +21,13 @@ export const AddProvider = ({ children }: { children: React.ReactNode }) => {
     // Get JWT token from localStorage
     const token = localStorage.getItem("token");
     if (!token) {
-      alert("Not logged in");
+      <RedAlert add="Not logged in" />
       return;
     }
 
     try {
       await axios.post(
-        'http://localhost:3000/api/content', 
+        `${API_URL}/content`,
         data, // send data directly or  { title, link, type, description }, // directly create object here
         {
           headers: {
@@ -34,7 +36,7 @@ export const AddProvider = ({ children }: { children: React.ReactNode }) => {
         }
       );
 
-      alert("Content added successfully!");
+     <BlueAlert add="Content added successfully!" />
     } catch (error: unknown) {
       console.error("Error adding content:", error);
     

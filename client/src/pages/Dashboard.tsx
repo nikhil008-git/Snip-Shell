@@ -1,211 +1,215 @@
-  import React, { useState, useEffect } from "react";
-  import Sidebar from "../layout/Sidebar";
-  import Modal from "../components/modal/Modal";
-  import { useContent } from "../hooks/AddContext";
-  import Card from "../components/Card/Card";
-  import axios from "axios";
-  // import { data } from "react-router-dom";
-  interface CardData {
-    _id : string
-    title: string;
-    link: string;
-    type: "twitter" | "youtube" | "url" | "all";
-    description?: string;
-    onDelete: () => void;  
+import React, { useState, useEffect } from "react";
+import Sidebar from "../layout/Sidebar";
+import Modal from "../components/modal/Modal";
+import { useContent } from "../hooks/AddContext";
+import Card from "../components/Card/Card";
+import axios from "axios";
+import ShareModalContent from "../components/modal/ShareModalContent";
+import { motion } from "motion/react"
+const API_URL = import.meta.env.VITE_API_URL;
+import RedAlert from "../components/Alert/RedAlert";
+interface CardData {
+  _id: string;
+  title: string;
+  link: string;
+  type: "twitter" | "youtube" | "url" | "all";
+  description?: string;
+  onDelete: () => void;
+}
 
-  }
-  const Dashboard = () => {
-    
-    
-    const { content } = useContent();
-    const [showModal, setShowModal] = useState(false);
-    const [formData, setFormData] = useState({
-      title: "",
-      link: "",
-      type: "",
-      description: "",
-    });
-    const [items, setItems] = useState<CardData[]>([]);
+const Dashboard = () => {
+  const { content } = useContent();
+  const [showModal, setShowModal] = useState(false);
+  const [shareModal, setShareModal] = useState(false);
+  const [formData, setFormData] = useState({
+    title: "",
+    link: "",
+    type: "",
+    description: "",
+  });
 
-    const deleteHandle = async (id: string) => {
+  const [items, setItems] = useState<CardData[]>([]);
+
+  const deleteHandle = async (id: string) => {
     const token = localStorage.getItem("token");
 
     try {
-      await axios.delete(`http://localhost:3000/api/content`, {
+      await axios.delete(`${API_URL}/content`, {
         headers: { Authorization: `${token}` },
         data: { contentId: id },
       });
 
-      
-      setItems(prev => prev.filter(item => item._id !== id)); //we can even use items.filter to remove deleted item from UI without refetching
+      setItems((prev) => prev.filter((item) => item._id !== id));
     } catch (err) {
       console.log(err);
-      alert("Failed to delete");
+    <RedAlert add="Failed to delete" />
     }
   };
 
+  const fetchContent = async () => {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      <RedAlert add="You must be logged in" />
+      return;
+    }
 
-    const fetchContent = async () => {
-      const token = localStorage.getItem("token");
-      if (!token) {
-        alert("You must be logged in");
-        return;
-      }
-      
-      try {
-        const response = await axios.get("http://localhost:3000/api/content", {
-          headers: { Authorization: `${token}` },
-        });
-        setItems(response.data); // setItems(response.data.content) only if backend wraps array in { content: [...] }
-      } catch (err) {
-        console.error(err);
-        alert("Failed to fetch content");
-      }
-    };
-    useEffect(() => {
-      //eslint-disable-next-line
-      fetchContent();
-      
-    }, []);
+    try {
+      const response = await axios.get(`${API_URL}/content`, {
+        headers: { Authorization: `${token}` },
+      });
 
-    
+      setItems(response.data);
+    } catch (err) {
+      console.error(err);
+      <RedAlert add="Failed to fetch content" />
+    }
+  };
+
+  useEffect(() => {
+    //eslint-disable-next-line
+    fetchContent();
+  }, []);
+
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    const token = localStorage.getItem("token");
+    if (!token) {
+      <RedAlert add="You must be logged in" />
+      return;
+    }
 
-    // Handle form submit
-    const handleSubmit = async (e: React.FormEvent) => {
-      e.preventDefault();
-      const token = localStorage.getItem("token");
-      if (!token) {
-        alert("You must be logged in");
-        return;
-      }
+    try {
+      await content(formData);
+      setShowModal(false);
+      await fetchContent();
 
-      try {
-        
-        await content(formData); // or replace with axios.post if useContent isn't posting directly
-        setShowModal(false);
-
-        await fetchContent();
-
-        // Reset form
-        setFormData({ title: "", link: "", type: "", description: "" });
-      } catch (err) {
-        console.error(err);
-        alert("Failed to add content");
-      }
-    };
-
-    return (
-      <>
-      <Sidebar />
-      <div className="ml-75">
-      <div className="flex flex-row">
-        <div className="h-screen w-full bg-[url('/squares.png')] bg-no-repeat bg-top bg-[length:900px_700px]">
-          <div className="border border-black h-screen rounded-l-sm p-4">
-            <button onClick={() => setShowModal(true)}>Add Content</button>
-  <Modal show={showModal} onClose={() => setShowModal(false)}>
-    <form onSubmit={handleSubmit} className="flex flex-col gap-3 w-60 p-4">
-
-      <input
-        className="border p-2 font-inter text-xs"
-        type="text"
-        name="title"
-        placeholder="Title*"
-        value={formData.title}
-        onChange={handleChange}
-        required
-      />
-
-      <input
-        className="border p-2 font-inter text-xs"
-        type="text"
-        name="link"
-        placeholder="Link*"
-        value={formData.link}
-        onChange={handleChange}
-        required
-      />
-
-    <select
-    name="type"
-    value={formData.type}
-    onChange={handleChange}
-    className="border p-2 font-inter text-xs bg-white"
-    required
-  >
-    <option value="" disabled>Select Type*</option>
-    <option value="twitter">Twitter</option>
-    <option value="youtube">YouTube</option>
-    <option value="url">URL</option>
-  </select>
-
-
-      <input
-        className="border p-2 font-inter text-xs"
-        type="text"
-        name="description"
-        placeholder="Description"
-        value={formData.description}
-        onChange={handleChange}
-      />
-
-      <button
-        type="submit"
-        className="bg-black text-white p-2 rounded-md font-instrument hover:bg-gray-700"
-      >
-        Submit
-      </button>
-
-    </form>
-  </Modal>
-
-
-            <div className="mt-4 space-y-2">
-              {items.map((card) => (
-                <Card
-                  key={card._id}
-                  title={card.title}
-                  link={card.link}
-                  type={card.type}
-                  description={card.description}
-      onDelete={() => deleteHandle(card._id)}  
-                />
-              ))}
-            </div>
-  <button
-    className="mt-4 border border-black text-white bg-black h-10 w-18 text-xl rounded-sm"
-    onClick={async () => {
-      const token = localStorage.getItem("token");
-
-      const res = await axios.post(
-        "http://localhost:3000/api/brain/share",
-        { share: "true" },       
-        {
-          headers: {
-            Authorization: `${token}`,   
-          },
-        }
-      );
-
-      const sharedUrl = `http://localhost:5173/share/${res.data.hash}`;
-      alert(`Shareable Link: ${sharedUrl}`);
-    }}
-  >
-    Share
-  </button>
-
-          </div>
-        </div>
-    
-  </div>
-      </div>
-      </>
-    );
+      setFormData({ title: "", link: "", type: "", description: "" });
+    } catch (err) {
+      console.error(err);
+     
+    }
   };
 
-  export default Dashboard;
+  return (
+    <>
+      <Sidebar />
+<div className=" h-screen w-full 
+">
+      <div className="md:ml-75 pt-20  max-md:ml-0 md:p-4 ">
+
+        <div className="flex flex-row items-center justify-start gap-4 mb-4 max-md:flex-col max-md:items-start">
+         <button
+  onClick={() => setShowModal(true)}
+  className="
+    bg-black text-white 
+    text-sm sm:text-base md:text-lg 
+    px-5 sm:px-4 md:px-6 
+    py-2 md:py-2 ml-5
+    rounded-md font-semibold
+    transition-all duration-200
+    hover:bg-gray-800 font-instrument font-thin cursor-pointer
+  "
+>
+  Add Collection
+</button>
+
+          <button onClick={() => setShareModal(true)}    className="
+    bg-black text-white 
+    text-sm sm:text-base md:text-lg 
+    px-5 sm:px-4 md:px-6 
+    py-2 md:py-2 ml-5
+    rounded-md font-semibold
+    transition-all duration-200
+    hover:bg-gray-800 font-instrument font-thin cursor-pointer
+  "> share </button>
+<Modal show={shareModal} onClose={() => setShareModal(false)}>
+  
+   <ShareModalContent />
+          </Modal>
+        </div>
+
+        <Modal show={showModal} onClose={() => setShowModal(false)}>
+          <form onSubmit={handleSubmit} className="flex flex-col gap-3 w-60 p-4">
+            <input
+              className="border p-2 font-inter text-xs"
+              type="text"
+              name="title"
+              placeholder="Title*"
+              value={formData.title}
+              onChange={handleChange}
+              required
+            />
+
+            <input
+              className="border p-2 font-inter text-xs"
+              type="text"
+              name="link"
+              placeholder="Link*"
+              value={formData.link}
+              onChange={handleChange}
+              required
+            />
+
+            <select
+              name="type"
+              value={formData.type}
+              onChange={handleChange}
+              className="border p-2 font-inter text-xs bg-white"
+              required
+            >
+              <option value="" disabled>
+                Select Type*
+              </option>
+              <option value="twitter">Twitter</option>
+              <option value="youtube">YouTube</option>
+              <option value="url">URL</option>
+            </select>
+
+            <input
+              className="border p-2 font-inter text-xs"
+              type="text"
+              name="description"
+              placeholder="Description"
+              value={formData.description}
+              onChange={handleChange}
+            />
+
+            <button
+              type="submit"
+              className="bg-black text-white p-2 rounded-md font-instrument"
+            >
+              Submit
+            </button>
+          </form>
+        </Modal>
+<motion.div
+  className="mt-4 flex flex-row ml-5 flex-wrap gap-4"
+  initial={{ opacity: 0 }}
+  animate={{ opacity: 1 }}
+  transition={{ duration: 0.5 }}
+>
+  {items.map((card) => (
+    <Card
+      key={card._id}
+      title={card.title}
+      link={card.link}
+      type={card.type}
+      description={card.description}
+      onDelete={() => deleteHandle(card._id)}
+    />
+  ))}
+</motion.div>
+
+        </div>
+      </div>
+    </>
+  );
+};
+
+export default Dashboard;
