@@ -1,23 +1,12 @@
 import dashboard from '../assets/dashboard.png'
-import TextType from "../components/TextType";
+// import TextType from "../components/TextType";
 // import TextType from '../components/TextType';
 const Hero = () => {
   return (
   <div className="h-screen w-full bg-[url('/squares.png')] bg-no-repeat bg-top bg-[length:1200px_1100px]">
     <div className='flex flex-col items-center h-screen pt-20'>
   <div className='font-instrument text-4xl  '>Snip-Shell</div>
-<TextType  className='mt-5  text-3xl font-satoshi text-gray/80 font-thin'
- text={[
-  "Build your Second Brain",
-  "Organize. Create. Grow.",
-  "Turn ideas into action."
-]}
-
-  typingSpeed={90}
-  pauseDuration={1500}
-  showCursor={true}
-  cursorCharacter="|"
-/>
+<div>hola</div>
 <div>
   <img
     src={dashboard}
