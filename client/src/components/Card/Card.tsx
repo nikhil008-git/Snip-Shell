@@ -20,13 +20,12 @@ const FIXED =
   "z-0 w-[340px] h-[420px] p-4 rounded-lg border border-black/10 bg-white/30 \
 backdrop-blur-md text-black shadow-xl hover:bg-gray-100 cursor-pointer transition-all font-instrument";
 
-
 const Card = ({ title, link, type, description, onDelete }: CardProps) => {
   const [loading, setLoading] = useState(true);
 
   const handleCopy = () => {
     navigator.clipboard.writeText(link);
-    <BlueAlert add="Link copied!"  />
+    <BlueAlert add="Link copied!" />;
   };
 
   useEffect(() => {
@@ -39,50 +38,44 @@ const Card = ({ title, link, type, description, onDelete }: CardProps) => {
     }
   }, [type]);
 
-if (type === "url") {
-  return (
-    <div className={FIXED}>
-
-  
+  if (type === "url") {
+    return (
+      <div className={FIXED}>
         <h2 className="text-xl font-bold font-instrument">{title}</h2>
-      
-<p className="text-black-300 font-thin mt-1 line-clamp-2 font-instrument">
+
+        <p className="text-black-300 font-thin mt-1 line-clamp-2 font-instrument">
           {description}
         </p>
 
-      
-
-      {loading ? (
-        <div className="w-full h-[180px] mt-4 bg-gray-300 rounded-lg animate-pulse"></div>
-      ) : (
-        <a
-          href={link}
-          target="_blank"
-          className="text-blue-400 underline mt-3 cursor-pointer font-instrument block"
-        >
-          Visit Link
-        </a>
-      )}
-
+        {loading ? (
+          <div className="w-full h-[180px] mt-4 bg-gray-300 rounded-lg animate-pulse"></div>
+        ) : (
+          <a
+            href={link}
+            target="_blank"
+            className="text-blue-400 underline mt-3 cursor-pointer font-instrument block"
+          >
+            Visit Link
+          </a>
+        )}
 
         <button
           onClick={handleCopy}
           className="flex items-center gap-1 text-blue-400 mt-2 border border-black-400 px-2 py-1 rounded cursor-pointer font-instrument"
         >
-          <FaRegCopy />         </button>
+          <FaRegCopy />{" "}
+        </button>
 
-          <p className="text-sm text-gray-400 mt-2 mb-2">{type}</p>
+        <p className="text-sm text-gray-400 mt-2 mb-2">{type}</p>
         <button
           onClick={onDelete}
           className="flex items-center gap-1 bg-red-400 text-black border border-red-400 px-2 py-1 rounded cursor-pointer"
         >
-          <MdOutlineDeleteSweep /> 
+          <MdOutlineDeleteSweep />
         </button>
-
-
-    </div>
-  );
-}
+      </div>
+    );
+  }
 
   if (type === "youtube") {
     const id = link.match(/(?:v=|youtu\.be\/)([a-zA-Z0-9_-]{11})/);
@@ -110,7 +103,7 @@ if (type === "url") {
           onClick={handleCopy}
           className="mt-3 text-blue-400 border border-black-400 px-2 py-1 rounded cursor-pointer font-instrument"
         >
-<FaRegCopy />
+          <FaRegCopy />
         </button>
 
         <div className="mt-auto font-instrument">
@@ -119,8 +112,7 @@ if (type === "url") {
             onClick={onDelete}
             className="mt-3 text-black-400 bg-red-400 border border-red-400 px-2 py-1 rounded cursor-pointer"
           >
-                      <MdOutlineDeleteSweep />
-
+            <MdOutlineDeleteSweep />
           </button>
         </div>
       </div>
@@ -149,7 +141,7 @@ if (type === "url") {
           onClick={handleCopy}
           className="mt-3 text-blue-400 border border-black-400 hover:bg-black px-2 py-1 rounded cursor-pointer font-instrument"
         >
-<FaRegCopy />
+          <FaRegCopy />
         </button>
 
         <div className="mt-auto font-instrument">
@@ -158,8 +150,7 @@ if (type === "url") {
             onClick={onDelete}
             className="mt-3 text-black-400 bg-red-400 border border-red-400 px-2 py-1 rounded cursor-pointer"
           >
-                      <MdOutlineDeleteSweep />
-
+            <MdOutlineDeleteSweep />
           </button>
         </div>
       </div>

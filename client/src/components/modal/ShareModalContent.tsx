@@ -1,8 +1,7 @@
-import  { useState } from "react";
+import { useState } from "react";
 import axios from "axios";
 import BlueAlert from "../Alert/BlueAlert";
 import RedAlert from "../Alert/RedAlert";
-
 
 const API_URL = import.meta.env.VITE_API_URL;
 
@@ -30,10 +29,10 @@ const ShareModalContent = () => {
       setShareLink(url);
 
       // Friendly alert
-<BlueAlert add="copied to clipboard!" />
+      <BlueAlert add="copied to clipboard!" />;
     } catch (error) {
       console.error("Error sharing collection:", error);
-<RedAlert add="Failed to copy link. Please try again." />
+      <RedAlert add="Failed to copy link. Please try again." />;
     }
   };
 
@@ -42,9 +41,9 @@ const ShareModalContent = () => {
       {/* <h2 className="text-lg font-semibold">Share Your Collection</h2> */}
 
       <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3">
-      <button
-  onClick={handleShare}
-  className="
+        <button
+          onClick={handleShare}
+          className="
     bg-white text-black 
     text-sm sm:text-base md:text-lg 
     px-4 md:px-6 
@@ -55,9 +54,9 @@ const ShareModalContent = () => {
     cursor-pointer border-b border-black-900 border-t
     font-instrument
   "
->
-  Generate Shareable Link
-</button>
+        >
+          Generate Shareable Link
+        </button>
 
         {shareLink && (
           <a
