@@ -7,11 +7,11 @@ const API_URL = import.meta.env.VITE_API_URL;
 
 const ShareModalContent = () => {
   const [shareLink, setShareLink] = useState("");
-
+  
   const handleShare = async () => {
     try {
       const token = localStorage.getItem("token");
-
+      
       const res = await axios.post(
         `${API_URL}/brain/share`,
         { share: "true" },
@@ -19,7 +19,7 @@ const ShareModalContent = () => {
           headers: { Authorization: `${token}` },
         }
       );
-
+      
       const url = `https://snip-shell-yu52.vercel.app/share/${res.data.hash}`;
 
       // Copy to clipboard
@@ -35,14 +35,21 @@ const ShareModalContent = () => {
       <RedAlert add="Failed to copy link. Please try again." />;
     }
   };
-
+  
+  const [generated, setGenerated] = useState(false);
+  const handleGenerate = async () => {
+  setGenerated(true);
+};
   return (
     <div className="flex flex-col gap-4 p-4">
       {/* <h2 className="text-lg font-semibold">Share Your Collection</h2> */}
 
       <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3">
         <button
-          onClick={handleShare}
+          onClick={()=>{
+            handleShare()
+             handleGenerate ()}}
+
           className="
     bg-white text-black 
     text-sm sm:text-base md:text-lg 
@@ -55,7 +62,7 @@ const ShareModalContent = () => {
     font-instrument
   "
         >
-          Generate Shareable Link
+         {generated ? "Generated" : "Generate Shareable Link"}
         </button>
 
         {shareLink && (
