@@ -17,7 +17,8 @@ export const userSignup = async (req: Request, res: Response) => {
 
         res.json({ message: "user successfully created" });
     } catch (err) {
-        res.status(500).json({ message: "Internal error" });
+         console.error("SIGNUP ERROR:", err); 
+        res.status(500).json({ message: "Enter correct credentials" });
     }
 };
 
@@ -37,7 +38,7 @@ export const userSignin = async (req: Request, res: Response) => {
         const token = jwt.sign({ id: user._id }, JWT_SECRET);
         res.json({ token });
     } catch (err) {
-        res.status(500).json({ message: "Internal error" });
+        res.status(500).json({ message: "Enter correct credentials" });
     }
 };
 
