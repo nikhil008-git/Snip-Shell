@@ -35,7 +35,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       /* we can even write (email: string, password: string) here and use it in the function below */
     }
     try {
-      const res = await axios.post("http://localhost:3000/api/signin", {
+      const res = await axios.post("https://snip-shell-2.onrender.com/api/signin", {
         email: data.email,
         password: data.password,
       });
@@ -43,7 +43,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       // similar one
       //  const Signin = async (email: string, password: string) => {
       //   try {
-      //     const res = await axios.post("http://localhost:3000/api/signin", { email, password });
+      //     const res = await axios.post("https://snip-shell-2.onrender.com/api/signin", { email, password });
 
       // Save token
       localStorage.setItem("token", res.data.token);
@@ -62,7 +62,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
   const Signup = async (data: AuthData) => {
     try {
-      const res = await axios.post("http://localhost:3000/api/signup", {
+      const res = await axios.post("https://snip-shell-2.onrender.com/api/signup", {
         username: data.username,
         email: data.email,
         password: data.password,
