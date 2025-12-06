@@ -1,6 +1,6 @@
 import * as z from "zod";
 
-// signup type  
+// signup type
 export type SignupInput = {
   username: string;
   email: string;
@@ -16,27 +16,22 @@ export type SigninInput = {
 export const userSignupSchema = z.object({
   username: z
     .string()
-    .min(2, "Username must be at least 2 characters")
-    .max(40, "Username too long")
+    .min(1, "Username required")
     .trim(),
 
   email: z
     .string()
     .trim()
-    .toLowerCase()
-    .email("Invalid email"),
+    .regex(/@/, "Email must contain @"), 
 
-  password: z
-    .string()
-    .min(6, "Password must be at least 6 characters"), // looser
+  password: z.string(), 
 });
 
 export const userSigninSchema = z.object({
   email: z
     .string()
     .trim()
-    .toLowerCase()
-    .email("Invalid email"),
+    .regex(/@/, "Email must contain @"), 
 
-  password: z.string().min(1, "Password required"),
+  password: z.string(), 
 });
