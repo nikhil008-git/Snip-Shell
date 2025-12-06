@@ -4,12 +4,12 @@ import { DiYii } from "react-icons/di";
 import { useNavigate } from "react-router-dom";
 import Modal from "../modal/Modal";
 import { useAuth } from "../../hooks/AuthContext";
+
 function Header() {
   const navigate = useNavigate();
   const { Signin, Signup } = useAuth();
 
   const [isOpen, setIsOpen] = useState(false);
-
   const [showModal, setShowModal] = useState(false);
   const [formData, setFormData] = useState({ email: "", password: "" });
 
@@ -20,14 +20,18 @@ function Header() {
     password: "",
   });
 
+  const [loading, setLoading] = useState(false);
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData((p) => ({ ...p, [e.target.name]: e.target.value }));
   };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setLoading(true);
     const result = await Signin(formData);
-    if (!result.ok) return alert(result.message || "Signin failed");
+    setLoading(false);
+    if (!result.ok) return alert(result.message || "Enter correct credentials");
     setShowModal(false);
     navigate("/dashboard");
   };
@@ -38,8 +42,10 @@ function Header() {
 
   const handleSignupSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setLoading(true);
     const result = await Signup(signupData);
-    if (!result.ok) return alert(result.message || "Signup failed");
+    setLoading(false);
+    if (!result.ok) return alert(result.message || "Enter correct credentials");
     setShowSignupModal(false);
     setShowModal(true);
   };
@@ -62,9 +68,7 @@ function Header() {
 
           <Modal show={showModal} onClose={() => setShowModal(false)}>
             <form onSubmit={handleSubmit}>
-              <div className="flex flex-row mx-12 text-xl font-instrument  ">
-                Login to the brain
-              </div>
+              <div className="flex flex-row mx-12 text-xl font-instrument">Login to the brain</div>
 
               <div className="flex flex-col p-4 gap-3 w-60">
                 <input
@@ -85,9 +89,13 @@ function Header() {
                 />
                 <button
                   type="submit"
-                  className="bg-black text-white p-2 font-instrument rounded-md hover:bg-gray-700 "
+                  className="bg-black text-white p-2 font-instrument rounded-md hover:bg-gray-700 flex justify-center items-center gap-2"
                 >
-                  Signin
+                  {loading ? (
+                    <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                  ) : (
+                    "Signin"
+                  )}
                 </button>
                 <button
                   type="button"
@@ -110,14 +118,9 @@ function Header() {
             Signin
           </button>
 
-          <Modal
-            show={showSignupModal}
-            onClose={() => setShowSignupModal(false)}
-          >
+          <Modal show={showSignupModal} onClose={() => setShowSignupModal(false)}>
             <form onSubmit={handleSignupSubmit}>
-              <div className="flex flex-row mx-12 text-xl font-instrument  ">
-                Welcome to Snip-Shell
-              </div>
+              <div className="flex flex-row mx-12 text-xl font-instrument">Welcome to Snip-Shell</div>
               <div className="flex flex-col p-4 gap-3 w-60">
                 <input
                   className="border p-2 font-inter text-xs"
@@ -145,9 +148,13 @@ function Header() {
                 />
                 <button
                   type="submit"
-                  className="bg-black text-white p-2 rounded-md font-instrument hover:bg-gray-700"
+                  className="bg-black text-white p-2 rounded-md font-instrument hover:bg-gray-700 flex justify-center items-center gap-2"
                 >
-                  Signup
+                  {loading ? (
+                    <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                  ) : (
+                    "Signup"
+                  )}
                 </button>
 
                 <button
@@ -181,11 +188,10 @@ function Header() {
             >
               Signin
             </button>
+
             <Modal show={showModal} onClose={() => setShowModal(false)}>
               <form onSubmit={handleSubmit}>
-                <div className="flex flex-row mx-12 text-xl font-instrument  ">
-                  Login to the brain
-                </div>
+                <div className="flex flex-row mx-12 text-xl font-instrument">Login to the brain</div>
 
                 <div className="flex flex-col p-4 gap-3 w-60">
                   <input
@@ -206,9 +212,13 @@ function Header() {
                   />
                   <button
                     type="submit"
-                    className="bg-black text-white p-2 font-instrument rounded-md hover:bg-gray-700"
+                    className="bg-black text-white p-2 font-instrument rounded-md hover:bg-gray-700 flex justify-center items-center gap-2"
                   >
-                    Signin
+                    {loading ? (
+                      <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                    ) : (
+                      "Signin"
+                    )}
                   </button>
                   <button
                     type="button"
@@ -231,14 +241,9 @@ function Header() {
               Signup
             </button>
 
-            <Modal
-              show={showSignupModal}
-              onClose={() => setShowSignupModal(false)}
-            >
+            <Modal show={showSignupModal} onClose={() => setShowSignupModal(false)}>
               <form onSubmit={handleSignupSubmit}>
-                <div className="flex flex-row mx-12 text-xl font-instrument  ">
-                  Welcome to Snip-Shell
-                </div>
+                <div className="flex flex-row mx-12 text-xl font-instrument">Welcome to Snip-Shell</div>
                 <div className="flex flex-col p-4 gap-3 w-60">
                   <input
                     className="border p-2 font-inter text-xs"
@@ -266,9 +271,13 @@ function Header() {
                   />
                   <button
                     type="submit"
-                    className="bg-black text-white p-2 rounded-md font-instrument hover:bg-gray-700"
+                    className="bg-black text-white p-2 rounded-md font-instrument hover:bg-gray-700 flex justify-center items-center gap-2"
                   >
-                    Signup
+                    {loading ? (
+                      <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                    ) : (
+                      "Signup"
+                    )}
                   </button>
 
                   <button
