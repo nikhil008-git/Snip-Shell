@@ -7,7 +7,7 @@ import axios from "axios";
 import ShareModalContent from "../components/modal/ShareModalContent";
 import { motion } from "motion/react"
 const API_URL = import.meta.env.VITE_API_URL;
-import RedAlert from "../components/Alert/RedAlert";
+// import RedAlert from "../components/Alert/RedAlert";
 interface CardData {
   _id: string;
   title: string;
@@ -42,14 +42,14 @@ const Dashboard = () => {
       setItems((prev) => prev.filter((item) => item._id !== id));
     } catch (err) {
       console.log(err);
-    <RedAlert add="Failed to delete" />
+    alert("Failed to delete")
     }
   };
 
   const fetchContent = async () => {
     const token = localStorage.getItem("token");
     if (!token) {
-      <RedAlert add="You must be logged in" />
+     alert("You must be logged in")
       return;
     }
 
@@ -61,7 +61,7 @@ const Dashboard = () => {
       setItems(response.data);
     } catch (err) {
       console.error(err);
-      <RedAlert add="Failed to fetch content" />
+     alert("Failed to fetch content")
     }
   };
 
@@ -80,7 +80,7 @@ const Dashboard = () => {
     e.preventDefault();
     const token = localStorage.getItem("token");
     if (!token) {
-      <RedAlert add="You must be logged in" />
+      alert("You must be logged in")
       return;
     }
 

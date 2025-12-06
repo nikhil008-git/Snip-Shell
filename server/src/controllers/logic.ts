@@ -24,7 +24,7 @@ export const userSignup = async (req: Request, res: Response) => {
 export const userSignin = async (req: Request, res: Response) => {
     try {
         const parsed = userSigninSchema.safeParse(req.body);
-        if (!parsed.success) return res.status(400).json({ message: "Invalid data" });
+        if (!parsed.success) return res.status(400).json({ message: "Invalid try again" });
 
         const { email, password } = parsed.data;
 

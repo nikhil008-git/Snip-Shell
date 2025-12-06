@@ -4,7 +4,7 @@ import { DiYii } from "react-icons/di";
 import { useNavigate } from "react-router-dom";
 import Modal from "../modal/Modal";
 import { useAuth } from "../../hooks/AuthContext";
-import RedAlert from "../Alert/RedAlert";
+// import RedAlert from "../Alert/RedAlert";
 // import BlueAlert from "../Alert/BlueAlert";
 function Header() {
   const navigate = useNavigate();
@@ -29,7 +29,7 @@ function Header() {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const result = await Signin(formData);
-    if (!result.ok) return <RedAlert add={result.message || "Signin failed"} />;
+    if (!result.ok) return alert(result.message || "Signin failed");
     setShowModal(false);
     navigate("/dashboard");
   };
@@ -41,7 +41,7 @@ function Header() {
   const handleSignupSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const result = await Signup(signupData);
-    if (!result.ok) return <RedAlert add={result.message || "Signup failed"} />;
+    if (!result.ok) return alert(result.message || "Signup failed");
     setShowSignupModal(false);
     setShowModal(true);
   };
@@ -63,7 +63,7 @@ function Header() {
               <div className="flex flex-col p-4 gap-3 w-60">
                 <input className="border p-2 font-inter text-xs" type="text" name="email" value={formData.email} onChange={handleChange} placeholder="Email" />
                 <input className="border p-2 font-inter text-xs" type="password" name="password" value={formData.password} onChange={handleChange} placeholder="Password" />
-                <button type="submit" className="bg-black text-white p-2 font-instrument rounded-md hover:bg-gray-700">Signin</button>
+                <button type="submit" className="bg-black text-white p-2 font-instrument rounded-md hover:bg-gray-700 ">Signin</button>
                 <button
                   type="button"
                   className="text-sm underline"
@@ -80,7 +80,7 @@ function Header() {
 
           <button
             onClick={() => setShowModal(true)} 
-            className="hover:bg-gray-700 border bg-black text-white border-gray-500 h-7 w-16 rounded-sm text-sm flex items-center justify-center font-instrument font-thin text-lg"
+            className="hover:bg-gray-700 border bg-black text-white border-gray-500 h-7 w-16 rounded-sm text-sm flex items-center cursor-pointer justify-center font-instrument font-thin text-lg"
           >
             Signin
           </button>
