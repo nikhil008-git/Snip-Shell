@@ -1,4 +1,4 @@
-{"variant":"email","title":"Snip-Shell README Core Frameworks","recipient":""}
+- give it a star⭐
 # Snip-Shell
 
 **Snip-Shell** is a full-stack web application for organizing, managing, and sharing content. Users can collect URLs, Twitter posts, and YouTube videos, organize them in a personal dashboard, and generate shareable links for public access.
