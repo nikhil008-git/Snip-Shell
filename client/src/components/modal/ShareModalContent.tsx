@@ -20,7 +20,7 @@ const ShareModalContent = () => {
         }
       );
       
-      const url = `https://snip-shell-yu52.vercel.app/share/${res.data.hash}`;
+      const url = `https://snip-shell-0001.vercel.app/share/${res.data.hash}`;
 
       // Copy to clipboard
       await navigator.clipboard.writeText(url);
