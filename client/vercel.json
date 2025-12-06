@@ -1,0 +1,17 @@
+{
+  "version": 3,
+  "name": "snip-shell-yu52",
+  "builds": [
+    {
+      "src": "client/package.json",
+      "use": "@vercel/static-build",
+      "config": { "distDir": "build" }
+    }
+  ],
+  "routes": [
+    { "src": "/(.*)", "dest": "client/$1" }
+  ],
+  "env": {
+    "VITE_API_URL": "https://snip-shell-2.onrender.com/api"
+  }
+}
