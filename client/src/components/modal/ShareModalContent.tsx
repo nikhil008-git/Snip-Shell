@@ -28,8 +28,8 @@ const ShareModalContent = () => {
       // Set link to display
       setShareLink(url);
 
-      // Friendly alert
-      <BlueAlert add="copied to clipboard!" />;
+      
+      <BlueAlert add="copied to clipboard!" />; //issue with the component library
     } catch (error) {
       console.error("Error sharing collection:", error);
       <RedAlert add="Failed to copy link. Please try again." />;
