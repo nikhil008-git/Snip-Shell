@@ -1,7 +1,6 @@
 import React, { useState, createContext, useContext } from "react";
 import axios from "axios";
-
-// const API_URL = import.meta.env.VITE_API_URL ;
+import { API_URL, environment } from "../utils/constants";
 
 export interface UserData {
   _id: string;
@@ -35,15 +34,10 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       /* we can even write (email: string, password: string) here and use it in the function below */
     }
     try {
-      const res = await axios.post("https://snip-shell-2.onrender.com/api/signin", {
+      const res = await axios.post(`${API_URL}/api/signin`, {
         email: data.email,
         password: data.password,
       });
-
-      // similar one
-      //  const Signin = async (email: string, password: string) => {
-      //   try {
-      //     const res = await axios.post("https://snip-shell-2.onrender.com/api/signin", { email, password });
 
       // Save token
       localStorage.setItem("token", res.data.token);
@@ -62,7 +56,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
   const Signup = async (data: AuthData) => {
     try {
-      const res = await axios.post("https://snip-shell-2.onrender.com/api/signup", {
+      const res = await axios.post(`${API_URL}/api/signup`, {
         username: data.username,
         email: data.email,
         password: data.password,

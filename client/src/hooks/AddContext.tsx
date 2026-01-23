@@ -2,7 +2,8 @@ import React, { useContext, createContext } from "react";
 import axios from "axios";
 import RedAlert from "../components/Alert/RedAlert";
 import BlueAlert from "../components/Alert/BlueAlert";
-const API_URL = import.meta.env.VITE_API_URL;
+import { API_URL } from "../utils/constants";
+
 interface ContentData {
   title: string;
   type: string;
@@ -28,7 +29,7 @@ export const AddProvider = ({ children }: { children: React.ReactNode }) => {
 
     try {
       await axios.post(
-        `${API_URL}/content`,
+        `${API_URL}/api/content`,
         data, // send data directly or  { title, link, type, description }, // directly create object here
         {
           headers: {

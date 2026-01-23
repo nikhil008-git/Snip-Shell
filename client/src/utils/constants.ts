@@ -37,3 +37,6 @@ export const snipShellIntro: SnipShellIntro[] = [
       "Tweets, threads, YouTube videos, tutorials, blog posts, tools — save anything."
   }
 ];
+
+export const environment = import.meta.env.VITE_ENV;
+export const API_URL = environment === "development" ? "http://localhost:3000" : import.meta.env.VITE_API_URL ;
