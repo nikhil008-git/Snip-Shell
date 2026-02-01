@@ -6,8 +6,8 @@ import Card from "../components/Card/Card";
 import axios from "axios";
 import ShareModalContent from "../components/modal/ShareModalContent";
 import { motion } from "motion/react";
+import { API_URL } from "../utils/constants";
 
-const API_URL = import.meta.env.VITE_API_URL;
 // import RedAlert from "../components/Alert/RedAlert";
 interface CardData {
   _id: string;
@@ -35,7 +35,7 @@ const Dashboard = () => {
     const token = localStorage.getItem("token");
 
     try {
-      await axios.delete(`${API_URL}/content`, {
+      await axios.delete(`${API_URL}/api/content`, {
         headers: { Authorization: `${token}` },
         data: { contentId: id },
       });
@@ -55,7 +55,7 @@ const Dashboard = () => {
     }
 
     try {
-      const response = await axios.get(`${API_URL}/content`, {
+      const response = await axios.get(`${API_URL}/api/content`, {
         headers: { Authorization: `${token}` },
       });
 
@@ -72,7 +72,7 @@ const Dashboard = () => {
   }, []);
 
   const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>,
   ) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
