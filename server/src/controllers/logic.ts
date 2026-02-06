@@ -61,6 +61,24 @@ export const addContent = async (req: Request, res: Response) => {
       res.status(500).json({ error: error.message });
     }
 };
+
+export const updateContent = async (req: Request, res: Response) => {
+    try{
+        const { contentId, title, link, type, description } = req.body;
+        //@ts-ignore
+        const userId = req.userId;
+        const update = await contentModel.findOneAndUpdate(
+            { _id : contentId, userId} // secure: user can update only their content
+            ,   { title, link, type, description },
+            { new: true }
+        );
+        if(!update) return res.status(404).json({ message: "Content not found" });
+        res.json({ message: "Content updated", content: update });
+    }
+    catch(err){
+        res.status(500).json({ message: "Internal error" });
+    }
+}
   
 export const findContent = async (req: Request, res: Response) => {
     try {

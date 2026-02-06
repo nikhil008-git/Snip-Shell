@@ -7,14 +7,16 @@ import {
     findContent,
     deleteContent,
     shareBrain,
-    getsharelink
+    getsharelink,
+    updateContent
 } from "../controllers/logic.js";
 
 const serverRouter = Router();
 
 serverRouter.post("/signup", userSignup);
 serverRouter.post("/signin", userSignin);
-
+serverRouter.put("/content", userMiddleware, updateContent);
+    
 serverRouter.post("/content", userMiddleware, addContent);
 serverRouter.get("/content", userMiddleware, findContent);
 serverRouter.delete("/content", userMiddleware, deleteContent);

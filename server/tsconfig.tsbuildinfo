@@ -1,1 +1,1 @@
-{"root":["./src/config.ts","./src/index.ts","./src/controllers/aisdk.ts","./src/controllers/logic.ts","./src/middlewares/usermiddleware.ts","./src/model/userdb.ts","./src/routes/user.ts","./src/schema/user.ts"],"version":"5.9.3"}
+{"root":["./src/config.ts","./src/index.ts","./src/controllers/aisdk.ts","./src/controllers/logic.ts","./src/middlewares/userMiddleware.ts","./src/model/userdb.ts","./src/routes/user.ts","./src/schema/user.ts"],"version":"5.9.3"}
