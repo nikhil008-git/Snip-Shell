@@ -9,6 +9,7 @@ interface CardProps {
   type: "twitter" | "youtube" | "url" | "all";
   description?: string | number;
   onDelete: () => void;
+  onEdit?: () => void;
 }
 
 const Loader = () => (
@@ -16,11 +17,12 @@ const Loader = () => (
     Loading...
   </div>
 );
+
 const FIXED =
   "z-0 w-[340px] h-[420px] p-4 rounded-lg border border-black/10 bg-white/30 \
 backdrop-blur-md text-black shadow-xl hover:bg-gray-100 cursor-pointer transition-all font-instrument";
 
-const Card = ({ title, link, type, description, onDelete }: CardProps) => {
+const Card = ({ title, link, type, description, onDelete, onEdit }: CardProps) => {
   const [loading, setLoading] = useState(true);
 
   const handleCopy = () => {
@@ -38,126 +40,77 @@ const Card = ({ title, link, type, description, onDelete }: CardProps) => {
     }
   }, [type]);
 
-  if (type === "url") {
-    return (
-      <div className={FIXED}>
-        <h2 className="text-xl font-bold font-instrument">{title}</h2>
+  return (
 
-        <p className="text-black-300 font-thin mt-1 line-clamp-2 font-instrument">
-          {description}
-        </p>
+    <div className={FIXED + " overflow-auto"}>
+      
+  <h2 className="text-xl font-bold font-instrument">{title}</h2>
+  <p className="text-black-300 font-thin mt-1 line-clamp-2 font-instrument">
+    {description}
+  </p>
 
-        {loading ? (
-          <div className="w-full h-[180px] mt-4 bg-gray-300 rounded-lg animate-pulse"></div>
-        ) : (
-          <a
-            href={link}
-            target="_blank"
-            className="text-blue-400 underline mt-3 cursor-pointer font-instrument block"
-          >
-            Visit Link
-          </a>
-        )}
+  {/* URL */}
+  {type === "url" && !loading && (
+    <a
+      href={link}
+      target="_blank"
+      className="text-blue-400 underline mt-3 cursor-pointer font-instrument block break-words"
+    >
+      Visit Link
+    </a>
+  )}
 
-        <button
-          onClick={handleCopy}
-          className="flex items-center gap-1 text-blue-400 mt-2 border border-black-400 px-2 py-1 rounded cursor-pointer font-instrument"
-        >
-          <FaRegCopy />{" "}
-        </button>
+  {/* YouTube */}
+  {type === "youtube" && (
+    <div className="mt-3 w-full h-[230px] overflow-hidden rounded">
+      <iframe
+        className="w-full h-full"
+        src={
+          link.match(/(?:v=|youtu\.be\/)([a-zA-Z0-9_-]{11})/)
+            ? `https://www.youtube.com/embed/${link.match(/(?:v=|youtu\.be\/)([a-zA-Z0-9_-]{11})/)![1]}`
+            : link
+        }
+        allowFullScreen
+      />
+    </div>
+  )}
 
-        <p className="text-sm text-gray-400 mt-2 mb-2">{type}</p>
-        <button
-          onClick={onDelete}
-          className="flex items-center gap-1 bg-red-400 text-black border border-red-400 px-2 py-1 rounded cursor-pointer"
-        >
-          <MdOutlineDeleteSweep />
-        </button>
-      </div>
-    );
-  }
+  {/* Twitter/X */}
+  {type === "twitter" && (
+    <div className="mt-3 w-full overflow-hidden">
+      <blockquote className="twitter-tweet max-w-full">
+        <a href={link.includes("x.com") ? link.replace("x.com", "twitter.com") : link}></a>
+      </blockquote>
+    </div>
+  )}
 
-  if (type === "youtube") {
-    const id = link.match(/(?:v=|youtu\.be\/)([a-zA-Z0-9_-]{11})/);
-    const embed = id ? `https://www.youtube.com/embed/${id[1]}` : link;
+  <div className="flex gap-2 mt-3">
+    <button
+      onClick={handleCopy}
+      className="text-blue-400 border border-black-400 px-2 py-1 rounded cursor-pointer font-instrument"
+    >
+      <FaRegCopy />
+    </button>
+    {onEdit && (
+      <button
+        onClick={onEdit}
+        className="bg-blue-400 text-white px-2 py-1 rounded cursor-pointer font-instrument"
+      >
+        Edit
+      </button>
+    )}
+    <button
+      onClick={onDelete}
+      className="bg-red-400 text-black border border-red-400 px-2 py-1 rounded cursor-pointer font-instrument"
+    >
+      <MdOutlineDeleteSweep />
+    </button>
+  </div>
 
-    return (
-      <div className={FIXED}>
-        <h2 className="text-xl font-bold font-instrument">{title}</h2>
-        <p className="text-black-300 font-thin mt-1  font-instrument">
-          {description}
-        </p>
+  <p className="text-sm text-gray-400 mt-2">{type}</p>
+</div>
 
-        {loading && <Loader />}
-
-        <iframe
-          className={`w-full h-[230px] mt-3 rounded ${
-            loading ? "opacity-0" : "opacity-100"
-          }`}
-          src={embed}
-          onLoad={() => setLoading(false)}
-          allowFullScreen
-        />
-
-        <button
-          onClick={handleCopy}
-          className="mt-3 text-blue-400 border border-black-400 px-2 py-1 rounded cursor-pointer font-instrument"
-        >
-          <FaRegCopy />
-        </button>
-
-        <div className="mt-auto font-instrument">
-          <p className="text-sm text-gray-400 mt-2">{type}</p>
-          <button
-            onClick={onDelete}
-            className="mt-3 text-black-400 bg-red-400 border border-red-400 px-2 py-1 rounded cursor-pointer"
-          >
-            <MdOutlineDeleteSweep />
-          </button>
-        </div>
-      </div>
-    );
-  }
-
-  if (type === "twitter") {
-    const twitterUrl = link.includes("x.com")
-      ? link.replace("x.com", "twitter.com")
-      : link;
-
-    return (
-      <div className={`${FIXED} overflow-y-auto`}>
-        <h2 className="text-xl font-bold font-instrument">{title}</h2>
-        <p className="text-black-300 font-thin mt-1 line-clamp-2 font-instrument">
-          {description}
-        </p>
-
-        {loading && <Loader />}
-
-        <blockquote className="twitter-tweet mt-3">
-          <a href={twitterUrl}></a>
-        </blockquote>
-
-        <button
-          onClick={handleCopy}
-          className="mt-3 text-blue-400 border border-black-400 hover:bg-black px-2 py-1 rounded cursor-pointer font-instrument"
-        >
-          <FaRegCopy />
-        </button>
-
-        <div className="mt-auto font-instrument">
-          <p className="text-sm text-gray-400 mt-2">{type}</p>
-          <button
-            onClick={onDelete}
-            className="mt-3 text-black-400 bg-red-400 border border-red-400 px-2 py-1 rounded cursor-pointer"
-          >
-            <MdOutlineDeleteSweep />
-          </button>
-        </div>
-      </div>
-    );
-  }
-
-  return null;
+  );
 };
 
 export default Card;

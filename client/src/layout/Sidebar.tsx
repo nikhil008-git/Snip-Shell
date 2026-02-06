@@ -25,19 +25,7 @@ const Sidebar = () => {
             <DiYii /> Snip-Shell
           </div>
 
-          <div className="p-4">
-            <div className="bg-black border border-gray-800 rounded-lg p-4 mb-6">
-              <h3 className="font-instrument text-xl mb-3">Filters</h3>
-              <ul className="space-y-2 text-gray-300 font-instrument">
-                <li className="border border-gray-700 p-2 rounded-md hover:bg-gray-800 cursor-pointer">
-                  Links (coming soon)
-                </li>
-                <li className="border border-gray-700 p-2 rounded-md hover:bg-gray-800 cursor-pointer">
-                  Collections (upcoming)
-                </li>
-              </ul>
-            </div>
-          </div>
+        
 
           <div className="absolute bottom-0 w-full pb-4">
             <div className="flex flex-row justify-center gap-x-7 items-center p-4 border-t border-white hover:bg-gray-300 bg-white text-black font-bold mx-auto rounded-md h-10 w-50">
@@ -77,16 +65,7 @@ const Sidebar = () => {
 
         {mobileOpen && (
           <div className="bg-black border-t border-gray-800 p-4 space-y-4">
-            <h3 className="font-instrument text-xl mb-3">Filters</h3>
-            <ul className="space-y-2 text-gray-300 font-instrument">
-              <li className="border border-gray-700 p-2 rounded-md hover:bg-gray-800 cursor-pointer">
-                Links (coming soon)
-              </li>
-              <li className="border border-gray-700 p-2 rounded-md hover:bg-gray-800 cursor-pointer">
-                Collections (upcoming)
-              </li>
-            </ul>
-
+            
             <div className="flex flex-row justify-center gap-x-7 items-center p-4 border-t border-white hover:bg-gray-300 bg-white text-black font-bold mx-auto rounded-md h-10 w-full">
               <div className="font-instrument text-lg">Connect</div>
               <div className="flex flex-row gap-x-3">
